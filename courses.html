@@ -1,0 +1,37 @@
+const courseForm = document.getElementById('courseForm');
+const courseList = document.getElementById('courseList');
+
+// Отправка формы создания курса
+courseForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const title = courseForm['title'].value;
+  const description = courseForm['description'].value;
+
+  db.collection('courses').add({
+    title: title,
+    description: description,
+    created_at: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(() => {
+    alert("Курс создан!");
+    courseForm.reset();
+    loadCourses(); // обновляем список
+  })
+  .catch(err => console.error(err));
+});
+
+// Загрузка курсов
+function loadCourses() {
+  courseList.innerHTML = '';
+  db.collection('courses').orderBy('created_at', 'desc').get().then(snapshot => {
+    snapshot.forEach(doc => {
+      const course = doc.data();
+      const li = document.createElement('li');
+      li.textContent = course.title + " — " + course.description;
+      courseList.appendChild(li);
+    });
+  });
+}
+
+// Загружаем сразу при старте
+loadCourses();

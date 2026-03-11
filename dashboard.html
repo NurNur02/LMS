@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - Умная система обучения</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-graduation-cap"></i>
+            LMS Portal
+        </div>
+        <div class="navbar-menu">
+            <a class="navbar-item active" onclick="showSection('dashboard')">
+                <i class="fas fa-home"></i> Главная
+            </a>
+            <a class="navbar-item" onclick="showSection('courses')">
+                <i class="fas fa-book"></i> Курсы
+            </a>
+            <a class="navbar-item" onclick="showSection('assignments')">
+                <i class="fas fa-tasks"></i> Задания
+            </a>
+            <a class="navbar-item" onclick="showSection('calendar')">
+                <i class="fas fa-calendar"></i> Календарь
+            </a>
+            <a class="navbar-item" onclick="showSection('stats')">
+                <i class="fas fa-chart-line"></i> Статистика
+            </a>
+            <button class="btn btn-outline" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Выйти
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Секция: Главная -->
+        <div id="dashboardSection" class="section active">
+            <!-- Приветствие -->
+            <div class="flex-row" style="justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <div>
+                    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Добро пожаловать, <span id="userName">Михаил</span>!</h1>
+                    <p style="color: var(--gray);">Вот что происходит с вашим обучением сегодня</p>
+                </div>
+                <div class="avatar-large">
+                    <span id="userInitials">М</span>
+                </div>
+            </div>
+
+            <!-- Статистика -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-label">Всего баллов</div>
+                    <div class="stat-value" id="totalScore">0</div>
+                    <span class="card-change" id="scoreChange">+0%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Активных заданий</div>
+                    <div class="stat-value" id="activeTasks">0</div>
+                    <div class="stat-progress">
+                        <div class="stat-progress-bar" id="tasksProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Выполнено</div>
+                    <div class="stat-value" id="completedTasks">0</div>
+                    <div class="stat-progress">
+                        <div class="stat-progress-bar" id="completedProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Средний балл</div>
+                    <div class="stat-value" id="averageScore">0</div>
+                    <span class="card-change" id="avgChange">+0%</span>
+                </div>
+            </div>
+
+            <!-- Основной контент -->
+            <div class="grid">
+                <!-- Календарь -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-calendar-alt" style="margin-right: 0.5rem; color: var(--primary);"></i>
+                            Календарь событий
+                        </h3>
+                        <span class="card-change" id="currentDate">Август 2026</span>
+                    </div>
+                    
+                    <div class="calendar-weekdays">
+                        <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
+                    </div>
+                    
+                    <div class="calendar-days" id="calendarDays"></div>
+
+                    <div style="margin-top: 1.5rem;">
+                        <div class="event-card">
+                            <div class="event-time">09:00</div>
+                            <div>
+                                <div class="event-title" id="eventTitle1">Meeting harian barang Michael</div>
+                                <div class="event-category" id="eventCategory1">Ежедневная встреча</div>
+                            </div>
+                        </div>
+                        <div class="event-card">
+                            <div class="event-time">16:30</div>
+                            <div>
+                                <div class="event-title" id="eventTitle2">Belanja di Supermarket</div>
+                                <div class="event-category" id="eventCategory2">Личное</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Инвестиционный портфель (учебный прогресс) -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-pie" style="margin-right: 0.5rem; color: var(--primary);"></i>
+                            Учебный портфель
+                        </h3>
+                        <span class="card-change" id="portfolioChange">+3.43%</span>
+                    </div>
+                    
+                    <div class="card-value" id="portfolioTotal">Rp 334,221,200</div>
+                    
+                    <div style="margin: 1.5rem 0;">
+                        <div class="progress-stats">
+                            <span class="progress-label">Uang Sekolah Anak</span>
+                            <span class="progress-percent" id="schoolProgress">78%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 78%"></div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section" style="margin-top: 1rem;">
+                        <span class="filter-chip active">Pasar Uang</span>
+                        <span class="filter-chip">Saham</span>
+                        <span class="filter-chip">Syariah</span>
+                    </div>
+
+                    <p style="color: var(--gray); margin-top: 1rem;">
+                        <i class="fas fa-info-circle"></i>
+                        Apa itu reksadana? Meng sahah
+                    </p>
+                </div>
+
+                <!-- Поиск и категории -->
+                <div class="card">
+                    <h3 class="card-title">
+                        <i class="fas fa-search" style="margin-right: 0.5rem;"></i>
+                        Cari Reksadana
+                    </h3>
+                    
+                    <div style="margin: 1rem 0;">
+                        <div class="filter-section">
+                            <span class="filter-chip active">Pasar uang</span>
+                            <span class="filter-chip">Saham</span>
+                            <span class="filter-chip">Syariah</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="background: var(--gradient-primary); color: white;">
+                        <h4>Dana Pensiun</h4>
+                        <div style="font-size: 1.5rem; font-weight: 700; margin: 0.5rem 0;" id="pensionFund">
+                            Rp 34,221,200
+                        </div>
+                        <span class="card-change" style="background: rgba(255,255,255,0.2); color: white;" id="pensionChange">
+                            +9.3%
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Аналитика -->
+            <div class="grid">
+                <!-- Статистика -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-bar"></i>
+                            Statistik This Week
+                        </h3>
+                        <div>
+                            <span class="filter-chip active">Seminggu</span>
+                            <span class="filter-chip">Seluruh</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 2rem; margin-top: 1.5rem;">
+                        <div>
+                            <div class="progress-circle" id="rotationProgress">
+                                <svg width="120" height="120" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" fill="none" stroke="var(--light)" stroke-width="12"/>
+                                    <circle cx="60" cy="60" r="54" fill="none" stroke="url(#gradient)" stroke-width="12" 
+                                            stroke-dasharray="339.292" stroke-dashoffset="74.644" stroke-linecap="round"
+                                            transform="rotate(-90 60 60)"/>
+                                    <defs>
+                                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="var(--primary)"/>
+                                            <stop offset="100%" stop-color="var(--secondary)"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <div style="text-align: center; margin-top: 0.5rem;" id="rotationText">78% done</div>
+                        </div>
+                        
+                        <div style="flex: 1;">
+                            <div class="progress-stats">
+                                <span class="progress-label">Task</span>
+                                <span class="progress-percent" id="taskCount">34</span>
+                            </div>
+                            <div class="progress-stats">
+                                <span class="progress-label">Event</span>
+                                <span class="progress-percent" id="eventCount">17</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Прогресс по неделям -->
+                <div class="card">
+                    <h3 class="card-title">Progres Produktivitas 6 minggu terakhir</h3>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <div class="progress-stats">
+                            <span class="progress-label">Meeting harian</span>
+                            <span class="progress-percent" id="dailyMeeting">85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%" id="dailyMeetingBar"></div>
+                        </div>
+                        
+                        <div class="progress-stats" style="margin-top: 1rem;">
+                            <span class="progress-label">Meeting Michael</span>
+                            <span class="progress-percent" id="michaelMeeting">62%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 62%" id="michaelMeetingBar"></div>
+                        </div>
+                    </div>
+
+                    <p style="color: var(--primary); margin-top: 1.5rem; font-weight: 500;">
+                        Kalender Pintar untuk memudahkan hidupmu
+                    </p>
+                    
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="startSmartCalendar()">
+                        <i class="fas fa-rocket"></i> Mulai
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция: Курсы -->
+        <div id="coursesSection" class="section">
+            <h1 style="margin-bottom: 2rem;">Мои курсы</h1>
+            <div class="grid" id="coursesGrid"></div>
+        </div>
+
+        <!-- Секция: Задания -->
+        <div id="assignmentsSection" class="section">
+            <h1 style="margin-bottom: 2rem;">Мои задания</h1>
+            <div class="filter-section">
+                <span class="filter-chip active" onclick="filterAssignments('all')">Все</span>
+                <span class="filter-chip" onclick="filterAssignments('active')">Активные</span>
+                <span class="filter-chip" onclick="filterAssignments('completed')">Выполненные</span>
+                <span class="filter-chip" onclick="filterAssignments('expired')">Просроченные</span>
+            </div>
+            <div id="assignmentsList"></div>
+        </div>
+
+        <!-- Секция: Календарь -->
+        <div id="calendarSection" class="section">
+            <h1 style="margin-bottom: 2rem;">Календарь</h1>
+            <div class="calendar-section" id="fullCalendar"></div>
+        </div>
+
+        <!-- Секция: Статистика -->
+        <div id="statsSection" class="section">
+            <h1 style="margin-bottom: 2rem;">Статистика обучения</h1>
+            <div class="grid">
+                <div class="card">
+                    <h3>Прогресс по курсам</h3>
+                    <canvas id="coursesChart" width="400" height="300"></canvas>
+                </div>
+                <div class="card">
+                    <h3>Оценки по неделям</h3>
+                    <canvas id="gradesChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для задания -->
+    <div class="modal" id="assignmentModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Задание</h2>
+            <div id="modalContent"></div>
+            <button class="btn btn-danger" onclick="closeModal()" style="margin-top: 1rem;">Закрыть</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

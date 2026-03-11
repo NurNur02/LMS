@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - Панель администратора</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">LMS Администратор</div>
+        <div class="navbar-menu">
+            <a href="#" class="navbar-item" onclick="showSection('dashboard')">Дашборд</a>
+            <a href="#" class="navbar-item" onclick="showSection('courses')">Курсы</a>
+            <a href="#" class="navbar-item" onclick="showSection('groups')">Группы</a>
+            <a href="#" class="navbar-item" onclick="showSection('categories')">Категории</a>
+            <a href="#" class="navbar-item" onclick="showSection('students')">Студенты</a>
+            <button class="btn btn-danger" id="logoutBtn">Выйти</button>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <!-- Дашборд -->
+        <div id="dashboardSection" class="section active">
+            <h1><a href="https://nurnur02.github.io/Repo/">Дашборд</a></h1>
+            <div class="stats-grid" id="dashboardStats"></div>
+            <div class="grid">
+                <div class="card">
+                    <h3>Последние активности</h3>
+                    <div id="recentActivities"></div>
+                </div>
+                <div class="card">
+                    <h3>Просроченные задания</h3>
+                    <div id="expiredAssignments"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Управление курсами -->
+        <div id="coursesSection" class="section">
+            <h1>Управление курсами</h1>
+            
+            <div class="card">
+                <h3>Создать новый курс</h3>
+                <form id="courseForm">
+                    <div class="form-group">
+                        <label>Название курса</label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea name="description" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Создать курс</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Список курсов</h3>
+                <div id="coursesList" class="grid"></div>
+            </div>
+        </div>
+
+        <!-- Управление группами -->
+        <div id="groupsSection" class="section">
+            <h1>Управление группами</h1>
+            
+            <div class="card">
+                <h3>Создать новую группу</h3>
+                <form id="groupForm">
+                    <div class="form-group">
+                        <label>Название группы</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Курс</label>
+                        <select name="courseId" id="courseSelect" required></select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Создать группу</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Список групп</h3>
+                <div id="groupsList"></div>
+            </div>
+        </div>
+
+        <!-- Управление категориями заданий -->
+        <div id="categoriesSection" class="section">
+            <h1>Категории заданий</h1>
+            
+            <div class="card">
+                <h3>Создать категорию</h3>
+                <form id="categoryForm">
+                    <div class="form-group">
+                        <label>Название категории</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Создать категорию</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Список категорий</h3>
+                <div id="categoriesList"></div>
+            </div>
+        </div>
+
+        <!-- Управление студентами -->
+        <div id="studentsSection" class="section">
+            <h1>Управление студентами</h1>
+            
+            <div class="card">
+                <h3>Фильтры</h3>
+                <div class="form-group">
+                    <select id="groupFilter" onchange="filterStudents()">
+                        <option value="">Все группы</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Студент</th>
+                            <th>Группа</th>
+                            <th>Последний вход</th>
+                            <th>Средний балл</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для создания задания -->
+    <div id="assignmentModal" class="modal">
+        <div class="modal-content">
+            <h2>Создать задание</h2>
+            <form id="assignmentForm">
+                <div class="form-group">
+                    <label>Название задания</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Тип задания</label>
+                    <select name="type" required>
+                        <option value="TEST">Тест</option>
+                        <option value="DOCUMENT">Задание с документом</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Категория</label>
+                    <select name="categoryId" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Группа</label>
+                    <select name="groupId" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Дата начала</label>
+                    <input type="datetime-local" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Дедлайн</label>
+                    <input type="datetime-local" name="deadline" required>
+                </div>
+                <div class="form-group">
+                    <label>Максимальный балл (100)</label>
+                    <input type="number" name="maxScore" min="1" max="100" value="100" required>
+                </div>
+                <div id="testFields" style="display: none;">
+                    <h3>Вопросы теста</h3>
+                    <div id="questionsList"></div>
+                    <button type="button" class="btn btn-primary" onclick="addQuestion()">+ Добавить вопрос</button>
+                </div>
+                <div id="documentFields" style="display: none;">
+                    <div class="form-group">
+                        <label>Файл задания</label>
+                        <input type="file" name="assignmentFile" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Создать задание</button>
+                <button type="button" class="btn btn-danger" onclick="closeModal()">Отмена</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

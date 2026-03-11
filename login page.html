@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - Вход</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="display: flex; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 400px; width: 90%; padding: 2.5rem;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="avatar-large" style="margin: 0 auto 1rem;">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Добро пожаловать</h1>
+            <p style="color: var(--gray);">Войдите в свою учетную запись</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="example@mail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+
+            <div class="form-group" id="registerFields" style="display: none;">
+                <label>Имя</label>
+                <input type="text" id="name" placeholder="Ваше имя">
+                
+                <label style="margin-top: 1rem;">Роль</label>
+                <select id="role">
+                    <option value="STUDENT">Студент</option>
+                    <option value="ADMIN">Администратор</option>
+                </select>
+            </div>
+
+            <div id="message" class="message" style="margin: 1rem 0;"></div>
+
+            <button type="button" class="btn btn-primary" style="width: 100%;" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i> Войти
+            </button>
+            
+            <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" id="toggleRegister">
+                <i class="fas fa-user-plus"></i> Создать аккаунт
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 2rem; color: var(--gray); font-size: 0.9rem;">
+            Умная система обучения © 2026
+        </p>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

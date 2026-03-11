@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - Кабинет студента</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">LMS Студент</div>
+        <div class="navbar-menu">
+            <a href="#" class="navbar-item" onclick="showSection('dashboard')">Мои курсы</a>
+            <a href="#" class="navbar-item" onclick="showSection('assignments')">Задания</a>
+            <a href="#" class="navbar-item" onclick="showSection('grades')">Оценки</a>
+            <button class="btn btn-danger" id="logoutBtn">Выйти</button>
+        </div>
+    </nav>
+
+    <div class="student-container">
+        <!-- Дашборд с курсами -->
+        <div id="dashboardSection" class="section active">
+            <h1>Мои курсы</h1>
+            <div id="myCourses" class="grid"></div>
+        </div>
+
+        <!-- Задания -->
+        <div id="assignmentsSection" class="section">
+            <h1><a href="https://nurnur02.github.io/Rema/">Мои задания</a></h1>
+            <div class="grid" id="myAssignments"></div>
+        </div>
+
+        <!-- Оценки -->
+        <div id="gradesSection" class="section">
+            <h1>Мои оценки</h1>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Задание</th>
+                            <th>Курс</th>
+                            <th>Оценка</th>
+                            <th>Макс. балл</th>
+                            <th>Дата сдачи</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gradesTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для выполнения задания -->
+    <div id="assignmentModal" class="modal">
+        <div class="modal-content">
+            <h2 id="assignmentTitle"></h2>
+            <div id="assignmentContent"></div>
+            <button class="btn btn-danger" onclick="closeModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/student.js"></script>
+</body>
+</html>
